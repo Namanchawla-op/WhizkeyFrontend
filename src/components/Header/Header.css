@@ -79,3 +79,10 @@
     display: none;
   }
 }
+
+/* --- AIP override: hide header date everywhere (not just on small screens) */
+.header-date {
+  display: none !important;
+}
+/* hide the header date globally */
+.header-date { display: none !important; }

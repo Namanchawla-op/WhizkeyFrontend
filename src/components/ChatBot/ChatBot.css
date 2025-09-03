@@ -98,3 +98,60 @@
 .error {
   color: #dc3545;
 }
+
+/* --- AIP overrides --- */
+.chatbot-container {
+  min-height: 0;            /* prevent flex overflow */
+}
+
+.chatbot-messages {
+  max-height: 420px;        /* cap height so page stays scrollable */
+  overflow-y: auto;         /* scroll inside the chat area */
+  overscroll-behavior: contain;  /* don't steal page momentum */
+  scroll-behavior: auto;    /* disable smooth animation jank */
+}
+
+/* Hide per-message timestamps inside chat (optional) */
+.message-time {
+  display: none !important;
+}
+
+/* --- AIP overrides --- */
+.chatbot-container { min-height: 0; }
+
+.chatbot-messages {
+  /* taller chat on desktop */
+  max-height: 560px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: auto; /* avoid jank */
+}
+
+/* phone: use viewport height so it feels natural */
+@media (max-width: 640px) {
+  .chatbot-messages { max-height: 55vh; }
+}
+
+/* optional: hide tiny time labels */
+.message-time { display: none !important; }
+
+/* --- AIP: taller chat + friendly mobile scroll --- */
+.chatbot-container { min-height: 0; }
+
+.chatbot-messages {
+  max-height: 560px;              /* desktop */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+}
+
+@media (max-width: 640px) {
+  .chatbot-messages {
+    max-height: 55vh;             /* phone */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: auto;    /* allow page to continue scrolling */
+  }
+}
+
+/* optional: hide per-message time */
+.message-time { display: none !important; }

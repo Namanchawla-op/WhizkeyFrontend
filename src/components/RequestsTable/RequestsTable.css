@@ -1,0 +1,67 @@
+.requests-table { width: 100%; margin-top: 1.5rem; }
+
+/* We drive the column count from a CSS var set inline */
+.table-grid {
+  display: grid;
+  grid-template-columns: var(--cols, repeat(6, 1fr));
+  gap: 1rem;
+}
+
+.table-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.table-row {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  align-items: center;
+}
+.table-row:hover { background-color: #f8f9fa; }
+
+/* Items column wraps nicely */
+.items-cell { word-break: break-word; }
+
+/* Status badge styles */
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.status-badge.pending  { background-color: #fff3bf; color: #a86800; }
+.status-badge.approved { background-color: #d3f9d8; color: #2b8a3e; }
+.status-badge.rejected { background-color: #ffe3e3; color: #c92a2a; }
+.status-badge.review   { background-color: #d0ebff; color: #1971c2; }
+
+/* Action buttons */
+.action-buttons { display: flex; gap: 0.5rem; align-items: center; }
+.approve-button, .reject-button {
+  padding: 0.4rem 0.8rem;
+  border: none; border-radius: 4px;
+  cursor: pointer; font-size: 0.8rem; font-weight: 600;
+  transition: background-color 0.2s;
+}
+.approve-button { background-color: #40c057; color: #fff; }
+.approve-button:hover { background-color: #37b24d; }
+.reject-button  { background-color: #fa5252; color: #fff; }
+.reject-button:hover  { background-color: #f03e3e; }
+.view-only { color: #6c757d; font-size: 0.8rem; }
+
+/* Loading / error / empty */
+.no-requests { padding: 2rem; text-align: center; color: #666; }
+.requests-table.loading, .requests-table.error { padding: 2rem; text-align: center; color: #666; }
+.requests-table.error { color: #dc3545; }
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .table-grid { gap: 0.75rem; }
+}
+@media (max-width: 768px) {
+  .table-grid { gap: 0.5rem; grid-template-columns: 1fr 1fr !important; }
+  .action-buttons { flex-direction: column; align-items: stretch; }
+}

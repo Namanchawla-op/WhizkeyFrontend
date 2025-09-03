@@ -1,0 +1,100 @@
+.admin-pending-approvals {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-pending-approvals h3 {
+  margin: 0 0 1rem 0;
+  color: #1a2238;
+  font-size: 1.1rem;
+}
+
+.approvals-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+.approval-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  background: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+.approval-item:last-child { margin-bottom: 0; }
+
+.approval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: .5rem;
+}
+.approval-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1a2238;
+}
+
+.status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.status.pending { background: #fff3bf; color: #e67700; }
+.status.approved { background: #d3f9d8; color: #2b8a3e; }
+.status.rejected { background: #ffe3e3; color: #c92a2a; }
+
+.approval-details { margin-bottom: .75rem; }
+.approval-details p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+.approval-details .muted { color: #6b7280; }
+
+.approval-actions {
+  display: flex;
+  gap: .5rem;
+}
+.approve-button, .reject-button {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+.approve-button { background: #40c057; color: #fff; }
+.approve-button:hover:not(:disabled) { background: #37b24d; }
+.reject-button  { background: #fa5252; color: #fff; }
+.reject-button:hover:not(:disabled)  { background: #f03e3e; }
+.approve-button:disabled,
+.reject-button:disabled { opacity: .7; cursor: not-allowed; }
+
+.no-approvals {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.admin-pending-approvals.loading,
+.admin-pending-approvals.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+.admin-pending-approvals.error { color: #dc3545; }

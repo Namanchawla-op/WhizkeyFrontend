@@ -1,0 +1,135 @@
+/* Namespaced to avoid collisions with Employer sidebar styles */
+.admin-sidebar {
+  width: 280px;
+  background: #1a2238;
+  color: #fff;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 30; /* above backdrop */
+}
+.admin-sidebar.collapsed { width: 70px; }
+
+.admin-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
+}
+
+.admin-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #fff;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+.admin-logo span { color: #8affc1; }
+
+.admin-toggle-sidebar {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s ease;
+}
+.admin-toggle-sidebar:hover { color: #8affc1; }
+
+.admin-nav-menu {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px; /* tiny gutter so scrollbar doesn't overlay text */
+}
+
+/* use button for accessibility/focus */
+.admin-nav-item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.admin-nav-item.active { background: #4a6fa5; font-weight: 600; }
+.admin-nav-item:not(.active):hover { background: rgba(255,255,255,0.1); }
+
+.admin-nav-icon {
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+  min-width: 24px;
+}
+.admin-nav-text { transition: opacity 0.3s ease; }
+
+.admin-sidebar.collapsed .admin-nav-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.admin-sidebar-footer {
+  padding: 1rem 0.5rem 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: auto;
+}
+
+.admin-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.admin-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4a6fa5, #b2a4d4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+}
+
+.admin-user-details { transition: opacity 0.3s ease; }
+.admin-sidebar.collapsed .admin-user-details {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.admin-user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.1rem;
+}
+.admin-user-role {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Mobile behavior: slide in/out with the page trigger/backdrop you already have */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.15);
+    transform: translateX(0);
+  }
+  .admin-sidebar.collapsed {
+    transform: translateX(-100%);
+    width: 280px; /* keep full width when hidden off-canvas */
+  }
+}

@@ -1,0 +1,129 @@
+.ai-panel {
+  position: fixed;                 /* fixed so it doesn’t jitter with page scroll */
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: 360px;
+  height: 520px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.ai-panel-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+}
+
+.ai-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-weight: 600;
+  color: #4a6fa5;
+}
+
+.ai-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8affc1, #4a6fa5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.toggle-ai-panel {
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.2s ease;
+}
+.toggle-ai-panel:hover { color: #4a6fa5; }
+
+.ai-conversation {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.ai-message {
+  margin-bottom: 1rem;
+  animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ai-message-header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #4a6fa5;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-message .ai-message-header {
+  color: #6c757d;
+  justify-content: flex-end;
+}
+
+.ai-message-content {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: #495057;
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.user-message .ai-message-content {
+  background: #e3f2fd;
+  text-align: right;
+}
+
+.ai-input-area {
+  padding: 0.9rem 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+}
+
+.ai-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 25px;
+  border: 1px solid rgba(0,0,0,0.12);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.92rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.ai-input:focus {
+  outline: none;
+  border-color: #8affc1;
+  box-shadow: 0 0 0 2px rgba(138, 255, 193, 0.25);
+}
+
+@media (max-width: 768px) {
+  .ai-panel {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    right: 0; bottom: 0;
+  }
+}

@@ -1,0 +1,79 @@
+.admin-system-health {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-system-health h3 {
+  margin: 0 0 1rem 0;
+  color: #1a2238;
+  font-size: 1.1rem;
+}
+
+.health-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.metric-label {
+  width: 120px;
+  font-size: 0.85rem;
+  color: #555;
+  font-weight: 600;
+}
+
+.metric-value {
+  width: 70px;
+  font-size: 0.9rem;
+  color: #1a2238;
+  font-weight: 700;
+}
+
+.metric-bar {
+  flex: 1;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.metric-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.status-indicator.online  { background-color: #51cf66; }
+.status-indicator.offline { background-color: #ff6b6b; }
+
+.uptime-note {
+  font-size: 0.85rem;
+  color: #6c757d;
+  margin-top: .25rem;
+}
+
+.admin-system-health.loading,
+.admin-system-health.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+.admin-system-health.error { color: #dc3545; }

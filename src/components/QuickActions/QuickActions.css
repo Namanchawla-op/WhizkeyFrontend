@@ -1,51 +1,46 @@
-.quick-actions {
-  width: 100%;
-}
+.quick-actions { width: 100%; }
 
 .quick-actions h2 {
-  margin-bottom: 1rem;
-  color: #333;
-  font-size: 1.25rem;
+  margin: 0 0 .75rem 0;
+  font-size: 1.1rem;
 }
 
-.quick-actions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
-}
-
-.quick-action-button {
+/* one tight row that wraps when needed */
+.quick-actions-row {
   display: flex;
-  flex-direction: column;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+
+/* small “chip cards” */
+.qa-card {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 1rem 0.5rem;
-  background-color: white;
-  border: 1px solid #eee;
-  border-radius: 8px;
+  gap: .5rem;
+  padding: .65rem .8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,.04);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
-.quick-action-button:hover {
-  background-color: #f8f9fa;
-  transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.qa-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0,0,0,.08);
 }
 
-.quick-action-icon {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
+.qa-emoji { font-size: 1.1rem; line-height: 1; }
+.qa-label { font-weight: 600; font-size: .95rem; color: #111827; }
+
+/* phone: make chips full-width if space is tight */
+@media (max-width: 640px) {
+  .quick-actions-row { gap: .6rem; }
+  .qa-card { width: 100%; justify-content: center; }
 }
 
-.quick-action-label {
-  font-size: 0.8rem;
-  text-align: center;
-  color: #333;
-}
-
-@media (max-width: 480px) {
-  .quick-actions-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* --- AIP: phone chips are full-width so you can tap easily --- */
+@media (max-width: 640px) {
+  .quick-actions { margin-bottom: 8px; }
 }

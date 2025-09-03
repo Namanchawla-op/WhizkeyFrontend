@@ -10,19 +10,17 @@ import QuickActions from '../components/QuickActions/QuickActions';
 
 import '../styles/EmployeePage.css';
 
-// one axios client that respects the same base URL as ChatBot
 const client = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
-const EmployeePage = () => {
+export default function EmployeePage() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // load the signed-in (or demo) user
   useEffect(() => {
     let cancelled = false;
 
@@ -30,36 +28,25 @@ const EmployeePage = () => {
       try {
         setLoading(true);
         const res = await client.get('/api/user/me');
-        // backend returns: { id: 1, name: "Demo User", role: "employee" }
-        const data = res?.data || {};
+        const d = res?.data || {};
         if (!cancelled) {
           setUser({
-            id: data.id ?? data._id ?? 'demo-user',
-            name: data.name ?? 'Demo User',
-            role: data.role ?? 'employee',
-            avatar: (data.initials || data.name?.charAt(0) || 'U').toUpperCase(),
+            id: d.id ?? d._id ?? 1,
+            name: d.name ?? 'Demo User',
+            role: d.role ?? 'employee',
+            avatar: (d.initials || d.name?.charAt(0) || 'U').toUpperCase(),
           });
         }
       } catch (e) {
-        console.error('❌ /api/user/me failed', e?.message, e?.response?.data);
         if (!cancelled) setError(e?.response?.data?.message || 'Failed to load user');
       } finally {
         if (!cancelled) setLoading(false);
       }
     })();
 
-    const timer = setInterval(() => setCurrentTime(new Date()), 60_000);
-    return () => {
-      cancelled = true;
-      clearInterval(timer);
-    };
+    const t = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => { cancelled = true; clearInterval(t); };
   }, []);
-
-  // Optional: you can use this to react to completed actions (toast/log)
-  const handleActionComplete = (actionType, payload) => {
-    // no-op for now; ChatBot handles commands typed by user
-    // console.log(`${actionType} completed`, payload);
-  };
 
   if (loading) return <div className="loading-page">Loading dashboard...</div>;
   if (error) return <div className="error-page">{error}</div>;
@@ -68,6 +55,7 @@ const EmployeePage = () => {
   return (
     <div className="employee-dashboard">
       <div className="dashboard-header">
+        {/* If your Header shows a date element, hide it via CSS (below) */}
         <Header user={user} currentTime={currentTime} />
       </div>
 
@@ -79,33 +67,28 @@ const EmployeePage = () => {
           </div>
 
           <div className="chat-section">
-            {/* ChatBot already knows how to hit the backend and handle commands */}
             <ChatBot userId={user.id} />
           </div>
 
           <div className="actions-section">
-            {/* keep your existing component — it can stay exactly as-is */}
-            <ActionButtons onActionComplete={handleActionComplete} />
+            <ActionButtons />
           </div>
         </div>
 
         <div className="right-panel">
           <div className="approvals-section">
-            <PendingApprovals />
+            <PendingApprovals userId={user.id} />
           </div>
 
           <div className="activity-section">
-            {/* make sure your RecentActivity.jsx is defensive with Array.isArray */}
-            <RecentActivity />
+            <RecentActivity userId={user.id} />
           </div>
 
           <div className="quick-actions-section">
-            <QuickActions onAction={handleActionComplete} />
+            <QuickActions />
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default EmployeePage;
+}

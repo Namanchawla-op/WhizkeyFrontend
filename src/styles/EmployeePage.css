@@ -136,3 +136,58 @@
     min-width: 100%;
   }
 }
+
+/* Page scroll sanity */
+html, body, #root { height: auto !important; overflow-y: auto !important; }
+
+.employee-dashboard { min-height: 100vh; overflow-y: auto; }
+.dashboard-content  { overflow: visible; }
+
+/* Defuse any accidental sticky/fixed side columns */
+.left-panel, .right-panel { position: static !important; }
+
+/* give the left (chat) panel more room on desktop */
+@media (min-width: 1200px) {
+  .dashboard-content {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr; /* wider left panel */
+    gap: 1.2rem;
+  }
+}
+
+/* ensure the page itself scrolls (no sticky traps) */
+html, body, #root { height: auto !important; overflow-y: auto !important; }
+.left-panel, .right-panel { position: static !important; }
+
+/* --- AIP: page scroll sanity (desktop + mobile) --- */
+html, body, #root {
+  height: auto !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch; /* smooth iOS */
+}
+
+.employee-dashboard {
+  min-height: 100vh;
+  overflow: visible !important;
+  padding-bottom: 64px; /* room to scroll past the last card */
+}
+
+.dashboard-content {
+  overflow: visible !important;
+}
+
+.left-panel, .right-panel {
+  position: static !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* desktop: give chat/left more room */
+@media (min-width: 1200px) {
+  .dashboard-content {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr; /* wider left panel */
+    gap: 1.2rem;
+  }
+}

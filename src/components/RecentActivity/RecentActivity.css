@@ -1,65 +1,94 @@
-.recent-activity {
-  width: 100%;
+.recent-activity-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,.05);
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  max-height: 420px;         /* keep the panel compact */
+  overflow: hidden;
 }
 
-.recent-activity h2 {
-  margin-bottom: 1rem;
-  color: #333;
-  font-size: 1.25rem;
+.recent-activity-card > h2 {
+  margin: 0 0 .75rem 0;
+  color: #1a2238;
+  font-size: 1.15rem;
 }
 
-.activity-list {
+.ra-loading,
+.ra-error,
+.ra-empty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #666;
+  padding: 1rem;
+}
+
+.ra-error { color: #dc3545; }
+
+.ra-list {
   list-style: none;
-  padding: 0;
   margin: 0;
-}
-
-.activity-item {
-  display: flex;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.activity-item:last-child {
-  border-bottom: none;
-}
-
-.activity-icon {
-  font-size: 1.25rem;
-  width: 40px;
-  height: 40px;
-  background-color: #f0f4f8;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.activity-content {
+  padding: 0;
+  overflow-y: auto;       /* scroll inside panel */
   flex: 1;
 }
 
-.activity-content p {
-  margin: 0;
-  color: #333;
-  font-size: 0.9rem;
+.ra-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: .75rem;
+  padding: .65rem 0;
+  border-bottom: 1px solid #f0f2f5;
 }
 
-.activity-time {
-  display: block;
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: #777;
+.ra-item:last-child { border-bottom: none; }
+
+.ra-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  background: #f0f4f8;
+  color: #1a2238;
 }
 
-.loading, .error, .empty {
-  padding: 1rem;
-  text-align: center;
-  color: #666;
+.ra-main { display: flex; flex-direction: column; gap: .25rem; }
+
+.ra-title {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-weight: 600;
+  color: #1a2238;
 }
 
-.error {
-  color: #dc3545;
+.ra-status {
+  font-size: .72rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: capitalize;
+  background: #eef2f7;
+  color: #445;
+}
+
+/* status accenting */
+.ra-status.approved { background: #d3f9d8; color: #2b8a3e; }
+.ra-status.rejected { background: #ffe3e3; color: #c92a2a; }
+.ra-status.pending  { background: #fff3bf; color: #e67700; }
+.ra-status.created  { background: #e3f2fd; color: #1971c2; }
+.ra-status.present  { background: #e6fcf5; color: #0b7285; }
+
+.ra-msg  { color: #444; font-size: .9rem; line-height: 1.35; }
+.ra-time { color: #7a7a7a; font-size: .75rem; }
+
+/* Small screens */
+@media (max-width: 480px) {
+  .recent-activity-card { max-height: 360px; }
+  .ra-item { grid-template-columns: 36px 1fr; }
 }

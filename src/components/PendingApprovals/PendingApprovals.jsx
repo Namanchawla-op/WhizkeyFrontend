@@ -8,115 +8,54 @@ const client = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-// normalize whatever the backend sends into a neat array of approvals
-const pickApprovalsArray = (res) => {
-  const d = res?.data;
-  if (Array.isArray(d)) return d;
-  if (Array.isArray(d?.approvals)) return d.approvals;
-  if (Array.isArray(d?.data)) return d.data;
-  return [];
-};
-
-const PendingApprovals = () => {
-  const [approvals, setApprovals] = useState([]);
+const PendingApprovals = ({ userId }) => {
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
 
   useEffect(() => {
+    if (!userId) return;
     let cancelled = false;
 
     (async () => {
       try {
         setLoading(true);
         setErr(null);
-        // This endpoint exists in your backend: GET /api/approvals/pending
-        const res = await client.get('/api/approvals/pending');
-        const list = pickApprovalsArray(res);
-        if (!cancelled) setApprovals(Array.isArray(list) ? list : []);
+        // mine only
+        const res = await client.get('/api/approvals/mine', { params: { userId } }); // backend route [oai_citation:19‡approvalRoutes.js](file-service://file-DtrsKJdzjXgMKDECDnj9SV)
+        const list = Array.isArray(res?.data?.approvals) ? res.data.approvals : [];
+        if (!cancelled) setItems(list);
       } catch (e) {
-        console.error('Approvals fetch error:', e?.message, e?.response?.data);
-        if (!cancelled) setErr(e?.response?.data?.message || 'Not found');
+        if (!cancelled) setErr(e?.response?.data?.error || 'Failed to load approvals');
       } finally {
         if (!cancelled) setLoading(false);
       }
     })();
 
     return () => { cancelled = true; };
-  }, []);
+  }, [userId]);
 
-  const handleApprove = async (id) => {
-    try {
-      await client.post(`/api/approvals/${id}/approve`);
-      setApprovals((prev) => prev.filter((x) => (x.id ?? x._id) !== id));
-    } catch (e) {
-      setErr(e?.response?.data?.message || 'Approval failed');
-    }
-  };
-
-  const handleReject = async (id) => {
-    try {
-      await client.post(`/api/approvals/${id}/reject`);
-      setApprovals((prev) => prev.filter((x) => (x.id ?? x._id) !== id));
-    } catch (e) {
-      setErr(e?.response?.data?.message || 'Rejection failed');
-    }
-  };
-
-  // safe array to map
-  const list = Array.isArray(approvals) ? approvals : [];
+  if (loading) return <div className="loading">Loading approvals…</div>;
+  if (err) return <div className="error">{err}</div>;
+  if (!items.length) return <div className="empty">No pending approvals</div>;
 
   return (
     <div className="pending-approvals">
       <h2>Pending Approvals</h2>
-
-      {loading ? (
-        <div className="loading">Loading approvals...</div>
-      ) : err ? (
-        <div className="error">{err}</div>
-      ) : list.length === 0 ? (
-        <div className="empty">No pending approvals</div>
-      ) : (
-        <ul className="approvals-list">
-          {list.map((approval) => {
-            const id = approval.id ?? approval._id ?? `${approval.title}-${approval.createdAt}`;
-            const status = (approval.status || 'Pending').toString();
-            const createdAt = approval.createdAt || approval.created_at || new Date().toISOString();
-            const type = approval.type || 'General';
-
-            return (
-              <li key={id} className="approval-item">
-                <div className="approval-header">
-                  <h3>{approval.title || type}</h3>
-                  <span className={`status ${status.toLowerCase()}`}>{status}</span>
-                </div>
-
-                <div className="approval-details">
-                  <p>{approval.description || '—'}</p>
-                  <div className="approval-meta">
-                    <span>Requested on: {new Date(createdAt).toLocaleDateString()}</span>
-                    <span>Type: {type}</span>
-                  </div>
-                </div>
-
-                <div className="approval-actions">
-                  <button
-                    onClick={() => handleApprove(id)}
-                    className="approve-button"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    onClick={() => handleReject(id)}
-                    className="reject-button"
-                  >
-                    Reject
-                  </button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <ul className="approvals-list">
+        {items.map(a => (
+          <li key={a.id} className="approval-item">
+            <div className="approval-header">
+              <h3>{a.title}</h3>
+              <span className={`status ${String(a.status || 'Pending').toLowerCase()}`}>{a.status || 'Pending'}</span>
+            </div>
+            <div className="approval-details">
+              <p>{a.description || '—'}</p>
+              {/* no dates, no buttons */}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
