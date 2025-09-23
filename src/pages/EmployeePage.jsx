@@ -81,7 +81,7 @@ export default function EmployeePage() {
           </div>
 
           <div className="activity-section">
-            <RecentActivity userId={user.id} />
+            <RecentActivity />
           </div>
 
           <div className="quick-actions-section">

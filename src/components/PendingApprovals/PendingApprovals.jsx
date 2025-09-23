@@ -8,7 +8,7 @@ const client = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-const PendingApprovals = ({ userId }) => {
+export default function PendingApprovals({ userId }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
@@ -16,14 +16,10 @@ const PendingApprovals = ({ userId }) => {
   useEffect(() => {
     if (!userId) return;
     let cancelled = false;
-
     (async () => {
       try {
-        setLoading(true);
-        setErr(null);
-        // mine only
-        const res = await client.get('/api/approvals/mine', { params: { userId } }); // backend route [oai_citation:19‡approvalRoutes.js](file-service://file-DtrsKJdzjXgMKDECDnj9SV)
-        const list = Array.isArray(res?.data?.approvals) ? res.data.approvals : [];
+        const r = await client.get('/api/approvals/mine', { params: { userId } });
+        const list = Array.isArray(r?.data?.approvals) ? r.data.approvals : [];
         if (!cancelled) setItems(list);
       } catch (e) {
         if (!cancelled) setErr(e?.response?.data?.error || 'Failed to load approvals');
@@ -31,7 +27,6 @@ const PendingApprovals = ({ userId }) => {
         if (!cancelled) setLoading(false);
       }
     })();
-
     return () => { cancelled = true; };
   }, [userId]);
 
@@ -51,13 +46,11 @@ const PendingApprovals = ({ userId }) => {
             </div>
             <div className="approval-details">
               <p>{a.description || '—'}</p>
-              {/* no dates, no buttons */}
+              {/* No dates; no action buttons */}
             </div>
           </li>
         ))}
       </ul>
     </div>
   );
-};
-
-export default PendingApprovals;
+}

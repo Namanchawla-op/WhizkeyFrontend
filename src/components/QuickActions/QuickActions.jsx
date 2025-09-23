@@ -1,32 +1,27 @@
 import React from 'react';
 import './QuickActions.css';
-import { pushChat } from '../../utils/chatBus';
+import { pushChat } from '../utils/chatBus';
 
 export default function QuickActions() {
-  const go = (name) => pushChat({ sender: 'system', text: `__FLOW__:${name}:start` });
-
   return (
     <div className="quick-actions">
       <h2>Quick Actions</h2>
-      <div className="quick-actions-row">
-        <button className="qa-card" onClick={() => go('clockin')}>
-          <span className="qa-emoji" aria-hidden>⏰</span>
-          <span className="qa-label">Quick Clock In</span>
+      <div className="quick-actions-grid">
+        <button className="quick-action-button" onClick={() => pushChat({ sender: 'system', text: '__FLOW__:expense:start' })}>
+          <span className="quick-action-icon">💸</span>
+          <span className="quick-action-label">Submit Expense</span>
         </button>
-
-        <button className="qa-card" onClick={() => go('expense')}>
-          <span className="qa-emoji" aria-hidden>💸</span>
-          <span className="qa-label">New Expense</span>
+        <button className="quick-action-button" onClick={() => pushChat({ sender: 'system', text: '__FLOW__:clockin:start' })}>
+          <span className="quick-action-icon">🕒</span>
+          <span className="quick-action-label">Clock In</span>
         </button>
-
-        <button className="qa-card" onClick={() => go('stationery')}>
-          <span className="qa-emoji" aria-hidden>✏️</span>
-          <span className="qa-label">Request Items</span>
+        <button className="quick-action-button" onClick={() => pushChat({ sender: 'system', text: '__FLOW__:stationery:start' })}>
+          <span className="quick-action-icon">📝</span>
+          <span className="quick-action-label">Request Stationery</span>
         </button>
-
-        <button className="qa-card" onClick={() => go('onboarding')}>
-          <span className="qa-emoji" aria-hidden>❓</span>
-          <span className="qa-label">Get Help</span>
+        <button className="quick-action-button" onClick={() => pushChat({ sender: 'system', text: '__FLOW__:onboarding:start' })}>
+          <span className="quick-action-icon">🆘</span>
+          <span className="quick-action-label">Onboarding Help</span>
         </button>
       </div>
     </div>

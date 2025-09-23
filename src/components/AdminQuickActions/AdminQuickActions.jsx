@@ -9,28 +9,18 @@ const ACTIONS = [
   { id: 'audit-log',       label: 'View Audit Log',   icon: '📋' },
 ];
 
-// small helper to try multiple endpoints without guessing
+// Helpers to try multiple endpoints without guessing exact route names
 async function tryPostSequential(paths, body) {
   let lastErr;
   for (const p of paths) {
-    try {
-      const res = await api.post(p, body);
-      return res;
-    } catch (e) {
-      lastErr = e;
-    }
+    try { return await api.post(p, body); } catch (e) { lastErr = e; }
   }
   throw lastErr;
 }
 async function tryGetSequential(paths, params) {
   let lastErr;
   for (const p of paths) {
-    try {
-      const res = await api.get(p, { params });
-      return res;
-    } catch (e) {
-      lastErr = e;
-    }
+    try { return await api.get(p, { params }); } catch (e) { lastErr = e; }
   }
   throw lastErr;
 }
@@ -42,20 +32,17 @@ const AdminQuickActions = () => {
   const [auditLogs, setAuditLogs] = useState([]);
 
   const handleAddUser = async () => {
-    // ultra-light prompt flow (keeps UI minimal but real)
     const name  = window.prompt('Full name of the new user:');
     if (!name) return;
     const email = window.prompt('Email address:');
     if (!email) return;
-
-    const role  = window.prompt('Role (employee/hr/finance/logistics/admin):', 'employee') || 'employee';
-    const payload = { name, email, role: role.toLowerCase() };
+    const role  = (window.prompt('Role (employee/hr/finance/logistics/admin):', 'employee') || 'employee').toLowerCase();
 
     setBusyId('add-user'); setStatusMsg(null); setErrorMsg(null);
     try {
       const res = await tryPostSequential(
         ['/api/admin/users', '/api/users', '/api/user/create'],
-        payload
+        { name, email, role }
       );
       const created = res?.data || {};
       setStatusMsg(`✅ User created: ${created.name || name} (${created.email || email})`);
@@ -108,7 +95,6 @@ const AdminQuickActions = () => {
                  : Array.isArray(r?.data?.logs) ? r.data.logs
                  : Array.isArray(r?.data?.data) ? r.data.data
                  : [];
-      // normalize a bit
       const norm = list.map((x, i) => ({
         id: x.id ?? x._id ?? i,
         when: x.timestamp || x.createdAt || x.created_at || x.time || null,

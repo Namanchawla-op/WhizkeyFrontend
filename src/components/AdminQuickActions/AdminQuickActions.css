@@ -39,14 +39,8 @@
   cursor: not-allowed;
 }
 
-.action-icon {
-  font-size: 1.4rem;
-}
-.action-label {
-  font-size: 0.9rem;
-  color: #333;
-  text-align: center;
-}
+.action-icon { font-size: 1.4rem; }
+.action-label { font-size: 0.9rem; color: #333; text-align: center; }
 
 .qa-status-area {
   margin-top: 0.9rem;
@@ -101,11 +95,8 @@
   font-size: 0.8rem;
   color: #6b7280;
 }
-.qa-audit-type {
-  text-transform: capitalize;
-  font-weight: 600;
-  color: #4a6fa5;
-}
+.qa-audit-type { text-transform: capitalize; font-weight: 600; color: #4a6fa5; }
+.qa-audit-time { white-space: nowrap; }
 .qa-audit-msg {
   margin-top: 0.25rem;
   color: #374151;

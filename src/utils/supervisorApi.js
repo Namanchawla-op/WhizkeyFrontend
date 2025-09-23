@@ -1,61 +1,35 @@
 // src/utils/supervisorApi.js
 import { api } from './api';
 
-/**
- * Unified supervisor API for HR / Finance / Logistics dashboards.
- * Every section exposes: stats(orgId), listRequests(orgId, filter),
- * approve(id), reject(id). Add/adjust endpoints as your backend expects.
- */
-const supervisorApi = {
-  hr: {
-    stats: (organization_id) =>
-      api.get('/api/hr/stats', { params: { organization_id } }),
-    listRequests: (organization_id, filter) =>
-      api.get('/api/hr/requests', { params: { organization_id, filter } }),
-    approve: (requestId) => api.post(`/api/hr/requests/${requestId}/approve`),
-    reject: (requestId) => api.post(`/api/hr/requests/${requestId}/reject`),
-  },
+export const ORG_ID = Number(process.env.REACT_APP_ORG_ID || 1);
 
+export const supervisorApi = {
   finance: {
-    stats: (organization_id) =>
-      api.get('/api/finance/stats', { params: { organization_id } }),
-    listRequests: (organization_id, filter) =>
-      api.get('/api/finance/requests', { params: { organization_id, filter } }),
-    approve: (requestId) =>
-      api.post(`/api/finance/requests/${requestId}/approve`),
-    reject: (requestId) =>
-      api.post(`/api/finance/requests/${requestId}/reject`),
+    listExpenses: (organization_id = ORG_ID) =>
+      api.get('/api/finance/expenses', { params: { organization_id } }),
+    setExpenseStatus: (id, status) =>
+      api.put('/api/finance/expenses/status', { id, status }),
   },
-
+  hr: {
+    listAttendance: (organization_id = ORG_ID) =>
+      api.get('/api/hr/attendance', { params: { organization_id } }),
+    approveExemption: (id, approved) =>
+      api.put('/api/hr/attendance/exemption', { id, approved }),
+    listOnboarding: (organization_id = ORG_ID) =>
+      api.get('/api/hr/onboarding', { params: { organization_id } }),
+  },
   logistics: {
-    stats: (organization_id) =>
-      api.get('/api/logistics/stats', { params: { organization_id } }),
-    listRequests: (organization_id, filter) =>
-      api.get('/api/logistics/requests', {
-        params: { organization_id, filter },
-      }),
-    approve: (requestId) =>
-      api.post(`/api/logistics/requests/${requestId}/approve`),
-    reject: (requestId) =>
-      api.post(`/api/logistics/requests/${requestId}/reject`),
+    listTravel: (organization_id = ORG_ID) =>
+      api.get('/api/logistics/travel', { params: { organization_id } }),
+    setTravelStatus: (id, status) =>
+      api.put('/api/logistics/travel/status', { id, status }),
+    listStationery: (organization_id = ORG_ID) =>
+      api.get('/api/logistics/stationery', { params: { organization_id } }),
+    setStationeryStatus: (id, status) =>
+      api.put('/api/logistics/stationery/status', { id, status }),
+  },
+  onboarding: {
+    createTicket: ({ user_id, question }) =>
+      api.post('/api/onboarding/help', { user_id, question }),
   },
 };
-
-/** Convenience pass-throughs when you already know the role string */
-const stats = (role, organization_id) =>
-  supervisorApi[role]?.stats(organization_id);
-
-const listRequests = (role, organization_id, filter) =>
-  supervisorApi[role]?.listRequests(organization_id, filter);
-
-const approve = (role, requestId) =>
-  supervisorApi[role]?.approve(requestId);
-
-const reject = (role, requestId) =>
-  supervisorApi[role]?.reject(requestId);
-
-/** Named exports (what your components are importing) */
-export { supervisorApi, stats, listRequests, approve, reject };
-
-/** Default export too, so both import styles work */
-export default supervisorApi;

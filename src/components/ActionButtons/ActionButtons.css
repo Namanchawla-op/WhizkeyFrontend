@@ -1,37 +1,37 @@
-.action-buttons-container { width: 100%; }
-
-/* desktop: 4 in one row, tighter gap */
-.action-buttons-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: .75rem;                /* tighter */
-  margin-top: 0.5rem;
+.action-buttons-container {
+  width: 100%;
 }
 
-/* slightly smaller tile */
+.action-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* wider tiles */
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
 .action-button {
-  padding: 1rem;
+  padding: 1.25rem;
   border: none;
   border-radius: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform .15s ease, box-shadow .15s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 88px;               /* was 110 */
-  color: #fff;
-  font-size: 1rem;            /* was 1.1rem */
-  letter-spacing: .2px;
+  height: 110px;           /* was ~80px */
+  color: white;
+  font-size: 1.1rem;       /* larger text */
+  letter-spacing: 0.2px;
 }
 
 .action-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px rgba(0,0,0,.10);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
 }
 
 .action-button:disabled {
-  opacity: .7;
+  opacity: 0.7;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -42,13 +42,9 @@
 .request-stationery  { background-color: #FF9800; }
 .help-onboarding     { background-color: #9C27B0; }
 
-/* tablet: 2x2 */
-@media (max-width: 1024px) {
-  .action-buttons-grid { grid-template-columns: repeat(2, minmax(200px, 1fr)); }
+@media (max-width: 768px) {
+  .action-buttons-grid { grid-template-columns: 1fr 1fr; }
 }
-
-/* phone: single column, comfy tap targets */
-@media (max-width: 640px) {
-  .action-buttons-grid { grid-template-columns: 1fr; gap: .6rem; }
-  .action-button { height: 70px; font-size: .95rem; }
+@media (max-width: 480px) {
+  .action-buttons-grid { grid-template-columns: 1fr; }
 }
